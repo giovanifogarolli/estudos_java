@@ -9,8 +9,17 @@ import java.util.Random;
 public class sorts {
     static Random rd = new Random();
 
+    public static void main(String[] args) {
+        selectionSort();
+        insertionSort();
+        bubbleSort();
+        mergeSort();
+        javaSort();
+    }
+    
+
     public static void selectionSort(){
-        int values[] = rd.ints(10000, 0, 1000000).toArray();
+        int values[] = randomGenerator();
         long startTime = System.nanoTime();
         for(int i=0; i<values.length; i++){
             int min = i;
@@ -20,9 +29,7 @@ public class sorts {
                 }
             }
             if (values[min] != values[i]) {
-                int alt = values[i];
-                values[i] = values[min];
-                values[min] = alt;
+                swap(values, i, min);
             }
         }
         long endTime = System.nanoTime();
@@ -31,15 +38,13 @@ public class sorts {
     }
 
     public static void insertionSort(){
-        int values[] = rd.ints(10000, 0, 1000000).toArray();
+        int values[] = randomGenerator();
         long startTime = System.nanoTime();
         for(int i=0; i<values.length; i++){
             int pointer = i;
             if (i != 0) {
                 while (pointer > 0 && values[pointer - 1] > values[pointer] ) {
-                    int alt = values[pointer - 1];
-                    values[pointer - 1] = values[pointer];
-                    values[pointer] = alt;
+                    swap(values, pointer, pointer-1);
                     pointer -= 1;
                 }
             }
@@ -51,7 +56,7 @@ public class sorts {
     }
 
     public static void bubbleSort(){
-        int values[] = rd.ints(10000, 0, 1000000).toArray();
+        int values[] = randomGenerator();
         long startTime = System.nanoTime();
         boolean swapped;
 
@@ -59,9 +64,7 @@ public class sorts {
             swapped = false;
             for (int j = 0; j < values.length -i -1; j++) {
                 if (values[j] > values[j+1]) {
-                    int alt = values[j];
-                    values[j] = values[j+1];
-                    values[j+1] = alt;
+                    swap(values, j, j+1);
                     swapped = true;
                 }
             }
@@ -76,7 +79,7 @@ public class sorts {
     }
 
     public static void mergeSort(){
-        int values[] = rd.ints(10000, 0, 1000000).toArray();
+        int values[] = randomGenerator();
         long startTime = System.nanoTime();
         mergeResolve(values);
         long endTime = System.nanoTime();
@@ -125,7 +128,7 @@ public class sorts {
     }
 
     public static void javaSort(){
-        int values[] = rd.ints(10000, 0, 1000000).toArray();
+        int values[] = randomGenerator();
         long startTime = System.nanoTime();
         List<Integer> valuesList = new ArrayList<Integer>();
         for (int i = 0; i < values.length; i++) {
@@ -161,6 +164,18 @@ public class sorts {
         System.out.println("Tempo gasto: " + duration/1000000 +" ms");
         System.out.println(isSorted(array));
         System.out.println();
+    }
+
+    public static void swap(int[] values, int i, int j){
+        int alt = values[i];
+        values[i] = values[j];
+        values[j] = alt;
+    }
+
+    public static int[] randomGenerator(){
+        int numQtd = 10000;
+        int numRd = 1000000;
+        return rd.ints(numQtd, 0, numRd).toArray();
     }
 }
 
